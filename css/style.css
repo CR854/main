@@ -1,0 +1,356 @@
+/* =============================================================
+   Qual é Meu Nome? — Styles
+   ============================================================= */
+
+:root {
+  --color-correct: #6aaa64;
+  --color-present: #c9b458;
+  --color-absent: #787c7e;
+  --color-border: #d3d6da;
+  --color-border-filled: #878a8c;
+  --color-bg: #ffffff;
+  --color-text: #1a1a1b;
+  --color-key-bg: #d3d6da;
+  --color-key-text: #1a1a1b;
+  --tile-size: min(62px, 14vw);
+  --tile-gap: 5px;
+  --tile-font: 2rem;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  background: var(--color-bg);
+  color: var(--color-text);
+  display: flex;
+  justify-content: center;
+  min-height: 100dvh;
+}
+
+#app {
+  width: 100%;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 8px;
+}
+
+/* ---- Header ---- */
+header {
+  width: 100%;
+  text-align: center;
+  border-bottom: 2px solid var(--color-border);
+  padding: 12px 0;
+}
+
+header h1 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+/* ---- Message toast ---- */
+#message-container {
+  position: fixed;
+  top: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  pointer-events: none;
+}
+
+.message {
+  background: var(--color-text);
+  color: var(--color-bg);
+  padding: 10px 18px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  animation: fadeIn 0.15s ease;
+}
+
+.message.fade-out {
+  animation: fadeOut 0.3s ease forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+/* ---- Board ---- */
+#board {
+  display: grid;
+  grid-template-columns: repeat(5, var(--tile-size));
+  grid-template-rows: repeat(6, var(--tile-size));
+  gap: var(--tile-gap);
+  margin: 20px 0;
+}
+
+.tile {
+  width: var(--tile-size);
+  height: var(--tile-size);
+  border: 2px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--tile-font);
+  font-weight: 700;
+  text-transform: uppercase;
+  user-select: none;
+}
+
+.tile.filled {
+  border-color: var(--color-border-filled);
+  animation: pop 0.1s ease;
+}
+
+.tile.correct {
+  background: var(--color-correct);
+  border-color: var(--color-correct);
+  color: #fff;
+}
+
+.tile.present {
+  background: var(--color-present);
+  border-color: var(--color-present);
+  color: #fff;
+}
+
+.tile.absent {
+  background: var(--color-absent);
+  border-color: var(--color-absent);
+  color: #fff;
+}
+
+/* ---- Tile animations ---- */
+@keyframes pop {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.12); }
+  100% { transform: scale(1); }
+}
+
+.tile.flip {
+  animation: flipIn 0.25s ease forwards;
+}
+
+.tile.flip-out {
+  animation: flipOut 0.25s ease forwards;
+}
+
+@keyframes flipIn {
+  0% { transform: rotateX(0); }
+  100% { transform: rotateX(90deg); }
+}
+
+@keyframes flipOut {
+  0% { transform: rotateX(90deg); }
+  100% { transform: rotateX(0); }
+}
+
+.shake {
+  animation: shake 0.5s ease;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 50%, 90% { transform: translateX(-4px); }
+  30%, 70% { transform: translateX(4px); }
+}
+
+.bounce {
+  animation: bounce 0.5s ease;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  40% { transform: translateY(-20px); }
+  60% { transform: translateY(-10px); }
+}
+
+/* ---- Keyboard ---- */
+#keyboard {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.keyboard-row {
+  display: flex;
+  gap: 5px;
+  width: 100%;
+  justify-content: center;
+}
+
+.spacer-half {
+  flex: 0.5;
+}
+
+#keyboard button {
+  flex: 1;
+  max-width: 44px;
+  height: 58px;
+  border: none;
+  border-radius: 4px;
+  background: var(--color-key-bg);
+  color: var(--color-key-text);
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.15s;
+}
+
+#keyboard button:active {
+  filter: brightness(0.85);
+}
+
+#keyboard button.key-wide {
+  max-width: 66px;
+  flex: 1.5;
+  font-size: 0.7rem;
+}
+
+#keyboard button.correct {
+  background: var(--color-correct);
+  color: #fff;
+}
+
+#keyboard button.present {
+  background: var(--color-present);
+  color: #fff;
+}
+
+#keyboard button.absent {
+  background: var(--color-absent);
+  color: #fff;
+}
+
+/* ---- Modal ---- */
+#modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  animation: fadeIn 0.2s ease;
+}
+
+#modal-overlay.hidden {
+  display: none;
+}
+
+#modal {
+  background: var(--color-bg);
+  border-radius: 12px;
+  padding: 28px 24px;
+  max-width: 400px;
+  width: 90%;
+  text-align: center;
+  position: relative;
+}
+
+#modal-close {
+  position: absolute;
+  top: 10px;
+  right: 14px;
+  background: none;
+  border: none;
+  font-size: 1.4rem;
+  cursor: pointer;
+  color: var(--color-text);
+}
+
+#modal h2 {
+  margin-bottom: 8px;
+  font-size: 1.3rem;
+}
+
+#modal-message {
+  margin-bottom: 16px;
+  font-size: 1rem;
+  color: var(--color-absent);
+}
+
+/* ---- Stats ---- */
+#stats-container {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.stat-value {
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+
+.stat-label {
+  font-size: 0.65rem;
+  color: var(--color-absent);
+  text-transform: uppercase;
+}
+
+/* ---- Guess distribution ---- */
+#guess-distribution {
+  text-align: left;
+  margin-top: 8px;
+}
+
+.dist-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 4px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.dist-row .dist-label {
+  width: 14px;
+  text-align: right;
+}
+
+.dist-row .dist-bar {
+  background: var(--color-absent);
+  color: #fff;
+  padding: 2px 8px;
+  border-radius: 3px;
+  min-width: 24px;
+  text-align: right;
+  transition: width 0.3s ease;
+}
+
+.dist-row .dist-bar.highlight {
+  background: var(--color-correct);
+}
