@@ -5,7 +5,7 @@
 const MAX_GUESSES = 6;
 const WORD_LENGTH = 5;
 
-export class Game {
+class Game {
   constructor(correctWord, allowedWords) {
     this.correctWord = correctWord.toUpperCase();
     this.allowedSet = new Set(allowedWords.map((w) => w.toUpperCase()));

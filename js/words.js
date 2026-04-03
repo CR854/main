@@ -6,9 +6,9 @@
 // All names must be exactly 5 letters, uppercase, ASCII only.
 // =============================================================
 
-export const CORRECT_WORD = "MARIA";
+const CORRECT_WORD = "OSCAR";
 
-export const ALLOWED_WORDS = [
+const ALLOWED_WORDS = [
   "ADELE",
   "AGNES",
   "AISHA",

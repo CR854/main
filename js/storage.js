@@ -9,7 +9,7 @@ function gameKey(correctWord) {
   return GAME_KEY_PREFIX + correctWord;
 }
 
-export function saveGame(state) {
+function saveGame(state) {
   try {
     localStorage.setItem(gameKey(state.correctWord), JSON.stringify(state));
   } catch (_) {
@@ -17,7 +17,7 @@ export function saveGame(state) {
   }
 }
 
-export function loadGame(correctWord) {
+function loadGame(correctWord) {
   try {
     const raw = localStorage.getItem(gameKey(correctWord));
     return raw ? JSON.parse(raw) : null;
@@ -38,7 +38,7 @@ function defaultStats() {
   };
 }
 
-export function loadStats() {
+function loadStats() {
   try {
     const raw = localStorage.getItem(STATS_KEY);
     return raw ? { ...defaultStats(), ...JSON.parse(raw) } : defaultStats();
@@ -47,7 +47,7 @@ export function loadStats() {
   }
 }
 
-export function saveStats(stats) {
+function saveStats(stats) {
   try {
     localStorage.setItem(STATS_KEY, JSON.stringify(stats));
   } catch (_) {
@@ -55,7 +55,7 @@ export function saveStats(stats) {
   }
 }
 
-export function recordResult(status, guessCount) {
+function recordResult(status, guessCount) {
   const stats = loadStats();
   stats.played++;
   stats.lastResult = status;

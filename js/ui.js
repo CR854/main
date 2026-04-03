@@ -15,7 +15,7 @@ const WIN_MESSAGES = [
 
 let messageTimeout = null;
 
-export function createBoard() {
+function createBoard() {
   const board = document.getElementById("board");
   board.innerHTML = "";
   for (let r = 0; r < MAX_GUESSES; r++) {
@@ -29,13 +29,13 @@ export function createBoard() {
   }
 }
 
-export function getTile(row, col) {
+function getTile(row, col) {
   return document.querySelector(
     `.tile[data-row="${row}"][data-col="${col}"]`
   );
 }
 
-export function setTileLetter(row, col, letter) {
+function setTileLetter(row, col, letter) {
   const tile = getTile(row, col);
   tile.textContent = letter;
   if (letter) {
@@ -45,7 +45,7 @@ export function setTileLetter(row, col, letter) {
   }
 }
 
-export function revealRow(row, evaluation, onComplete) {
+function revealRow(row, evaluation, onComplete) {
   const tiles = [];
   for (let c = 0; c < WORD_LENGTH; c++) {
     tiles.push(getTile(row, c));
@@ -74,7 +74,7 @@ export function revealRow(row, evaluation, onComplete) {
   });
 }
 
-export function revealRowInstant(row, evaluation, guess) {
+function revealRowInstant(row, evaluation, guess) {
   for (let c = 0; c < WORD_LENGTH; c++) {
     const tile = getTile(row, c);
     tile.textContent = guess[c];
@@ -82,7 +82,7 @@ export function revealRowInstant(row, evaluation, guess) {
   }
 }
 
-export function bounceRow(row) {
+function bounceRow(row) {
   for (let c = 0; c < WORD_LENGTH; c++) {
     const tile = getTile(row, c);
     setTimeout(() => {
@@ -96,7 +96,7 @@ export function bounceRow(row) {
   }
 }
 
-export function shakeRow(row) {
+function shakeRow(row) {
   for (let c = 0; c < WORD_LENGTH; c++) {
     const tile = getTile(row, c);
     tile.classList.add("shake");
@@ -108,7 +108,7 @@ export function shakeRow(row) {
   }
 }
 
-export function updateKeyboard(letterStates) {
+function updateKeyboard(letterStates) {
   const priority = { correct: 3, present: 2, absent: 1 };
   const buttons = document.querySelectorAll("#keyboard button[data-key]");
 
@@ -123,7 +123,7 @@ export function updateKeyboard(letterStates) {
   });
 }
 
-export function showMessage(text, duration = 1500) {
+function showMessage(text, duration = 1500) {
   const container = document.getElementById("message-container");
   const msg = document.createElement("div");
   msg.classList.add("message");
@@ -138,7 +138,7 @@ export function showMessage(text, duration = 1500) {
   }, duration);
 }
 
-export function showGameOver(status, guessCount, correctWord, stats) {
+function showGameOver(status, guessCount, correctWord, stats) {
   const overlay = document.getElementById("modal-overlay");
   const title = document.getElementById("modal-title");
   const message = document.getElementById("modal-message");
@@ -155,7 +155,7 @@ export function showGameOver(status, guessCount, correctWord, stats) {
   overlay.classList.remove("hidden");
 }
 
-export function hideModal() {
+function hideModal() {
   document.getElementById("modal-overlay").classList.add("hidden");
 }
 

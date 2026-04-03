@@ -1,22 +1,7 @@
 // =============================================================
 // Qual é Meu Nome? — Main Entry Point
 // =============================================================
-
-import { CORRECT_WORD, ALLOWED_WORDS } from "./words.js";
-import { Game } from "./game.js";
-import {
-  createBoard,
-  setTileLetter,
-  revealRow,
-  revealRowInstant,
-  bounceRow,
-  shakeRow,
-  updateKeyboard,
-  showMessage,
-  showGameOver,
-  hideModal,
-} from "./ui.js";
-import { saveGame, loadGame, recordResult, loadStats } from "./storage.js";
+// Depends on: words.js, game.js, ui.js, storage.js (loaded first)
 
 const WORD_LENGTH = 5;
 let game;
@@ -190,5 +175,5 @@ function submitGuess() {
   currentRow++;
 }
 
-// Start the game
-init();
+// Start the game when DOM is ready
+document.addEventListener("DOMContentLoaded", init);
