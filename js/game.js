@@ -27,6 +27,9 @@ class Game {
     if (!this.allowedSet.has(guess)) {
       return { error: "not_in_list" };
     }
+    if (this.guesses.indexOf(guess) !== -1) {
+      return { error: "already_guessed" };
+    }
 
     const evaluation = Game.evaluateGuess(guess, this.correctWord);
     this.guesses.push(guess);

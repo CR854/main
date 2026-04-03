@@ -212,6 +212,12 @@ function submitGuess() {
     return;
   }
 
+  if (result.error === "already_guessed") {
+    shakeRow(currentRow);
+    showMessage("Nome já utilizado");
+    return;
+  }
+
   if (result.error) return;
 
   isRevealing = true;
