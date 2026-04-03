@@ -11,9 +11,47 @@
   <div id="name-screen">
     <div id="name-card">
       <h1>Qual é Meu Nome?</h1>
-      <p>Digite <u><b>seu</u></b> nome para começar:</p>
+      <p>Digite <u><b>seu</b></u> nome para começar:</p>
       <input type="text" id="player-name-input" placeholder="Seu nome" autocomplete="off" />
       <button id="start-game-btn">Jogar</button>
+    </div>
+  </div>
+
+  <!-- Instructions Screen -->
+  <div id="instructions-screen" class="hidden">
+    <div id="instructions-card">
+      <h1>Como jogar</h1>
+      <p>Descubra o nome do bebê em 6 tentativas.</p>
+      <ul>
+        <li>Cada palpite deve ser um nome de 5 letras.</li>
+        <li>Após cada palpite, as cores das letras mudam para mostrar o quão perto você está.</li>
+      </ul>
+      <h3>Exemplos</h3>
+      <div class="example-row">
+        <span class="ex-tile correct">M</span>
+        <span class="ex-tile">A</span>
+        <span class="ex-tile">R</span>
+        <span class="ex-tile">C</span>
+        <span class="ex-tile">O</span>
+      </div>
+      <p class="example-text">A letra <strong>M</strong> está no nome e na posição correta.</p>
+      <div class="example-row">
+        <span class="ex-tile">D</span>
+        <span class="ex-tile present">A</span>
+        <span class="ex-tile">V</span>
+        <span class="ex-tile">I</span>
+        <span class="ex-tile">D</span>
+      </div>
+      <p class="example-text">A letra <strong>A</strong> está no nome, mas em outra posição.</p>
+      <div class="example-row">
+        <span class="ex-tile">B</span>
+        <span class="ex-tile">R</span>
+        <span class="ex-tile">U</span>
+        <span class="ex-tile">N</span>
+        <span class="ex-tile absent">O</span>
+      </div>
+      <p class="example-text">A letra <strong>O</strong> não está no nome.</p>
+      <button id="start-playing-btn">Começar</button>
     </div>
   </div>
 

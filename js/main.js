@@ -21,15 +21,14 @@ function setupNameScreen() {
   const startBtn = document.getElementById("start-game-btn");
 
   function startWithName() {
-    const name = nameInput.value.trim();
+    var name = nameInput.value.trim();
     if (!name) {
       nameInput.focus();
       return;
     }
     playerName = name;
     document.getElementById("name-screen").classList.add("hidden");
-    document.getElementById("app").classList.remove("hidden");
-    init();
+    showInstructions();
   }
 
   startBtn.addEventListener("click", startWithName);
@@ -41,6 +40,17 @@ function setupNameScreen() {
   });
 
   nameInput.focus();
+}
+
+// ---- Instructions screen ----
+
+function showInstructions() {
+  document.getElementById("instructions-screen").classList.remove("hidden");
+  document.getElementById("start-playing-btn").addEventListener("click", function () {
+    document.getElementById("instructions-screen").classList.add("hidden");
+    document.getElementById("app").classList.remove("hidden");
+    init();
+  });
 }
 
 // ---- Timer ----
