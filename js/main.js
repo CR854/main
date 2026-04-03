@@ -127,18 +127,39 @@ function buildShareText(status, guessCount, evaluations, timeStr) {
     + lines;
 }
 
-function setupShareButtons() {
-  document.getElementById("share-whatsapp").addEventListener("click", function () {
-    var text = buildShareText(
-      game.status,
-      game.guesses.length,
-      game.evaluations,
-      formatTime(elapsedSeconds)
-    );
-    var url = "https://wa.me/?text=" + encodeURIComponent(text);
-    window.open(url, "_blank");
-  });
+function copyToClipboard(text) {
+  // Try modern API first
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(function () {
+      showMessage("Copiado!");
+    }).catch(function () {
+      fallbackCopy(text);
+    });
+  } else {
+    fallbackCopy(text);
+  }
+}
 
+function fallbackCopy(text) {
+  var ta = document.createElement("textarea");
+  ta.value = text;
+  ta.style.position = "fixed";
+  ta.style.left = "-9999px";
+  ta.style.top = "0";
+  ta.setAttribute("readonly", "");
+  document.body.appendChild(ta);
+  ta.focus();
+  ta.select();
+  try {
+    document.execCommand("copy");
+    showMessage("Copiado!");
+  } catch (_) {
+    showMessage("Erro ao copiar");
+  }
+  document.body.removeChild(ta);
+}
+
+function setupShareButtons() {
   document.getElementById("share-copy").addEventListener("click", function () {
     var text = buildShareText(
       game.status,
@@ -146,11 +167,7 @@ function setupShareButtons() {
       game.evaluations,
       formatTime(elapsedSeconds)
     );
-    navigator.clipboard.writeText(text).then(function () {
-      showMessage("Copiado!");
-    }).catch(function () {
-      showMessage("Erro ao copiar");
-    });
+    copyToClipboard(text);
   });
 }
 

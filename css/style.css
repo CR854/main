@@ -463,34 +463,25 @@ header h1 {
   background: var(--color-correct);
 }
 
-/* ---- Share buttons ---- */
+/* ---- Share button ---- */
 #share-buttons {
-  display: flex;
-  gap: 10px;
-  margin-top: 18px;
-  justify-content: center;
+  margin-top: 20px;
 }
 
 .share-btn {
-  flex: 1;
-  padding: 12px 8px;
-  font-size: 0.85rem;
+  width: 100%;
+  padding: 16px;
+  font-size: 1.1rem;
   font-weight: 700;
   border: none;
   border-radius: 8px;
   cursor: pointer;
   color: #fff;
+  background: var(--color-correct);
   font-family: inherit;
+  letter-spacing: 0.03em;
 }
 
 .share-btn:active {
   filter: brightness(0.85);
-}
-
-.share-whatsapp {
-  background: #25d366;
-}
-
-.share-copy {
-  background: var(--color-text);
 }
