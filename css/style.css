@@ -460,3 +460,35 @@ header h1 {
 .dist-row .dist-bar.highlight {
   background: var(--color-correct);
 }
+
+/* ---- Share buttons ---- */
+#share-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 18px;
+  justify-content: center;
+}
+
+.share-btn {
+  flex: 1;
+  padding: 12px 8px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  color: #fff;
+  font-family: inherit;
+}
+
+.share-btn:active {
+  filter: brightness(0.85);
+}
+
+.share-whatsapp {
+  background: #25d366;
+}
+
+.share-copy {
+  background: var(--color-text);
+}

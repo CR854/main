@@ -110,6 +110,50 @@ function sendResultEmail(status, guessCount) {
   });
 }
 
+// ---- Share ----
+
+function buildShareText(status, guessCount, evaluations, timeStr) {
+  var result = status === "won" ? guessCount + "/6" : "X/6";
+  var lines = evaluations.map(function (eval_) {
+    return eval_.map(function (e) {
+      if (e === "correct") return "🟩";
+      if (e === "present") return "🟨";
+      return "⬜";
+    }).join("");
+  }).join("\n");
+
+  return "Qual é Meu Nome? " + result + "\n"
+    + "Tempo: " + timeStr + "\n\n"
+    + lines;
+}
+
+function setupShareButtons() {
+  document.getElementById("share-whatsapp").addEventListener("click", function () {
+    var text = buildShareText(
+      game.status,
+      game.guesses.length,
+      game.evaluations,
+      formatTime(elapsedSeconds)
+    );
+    var url = "https://wa.me/?text=" + encodeURIComponent(text);
+    window.open(url, "_blank");
+  });
+
+  document.getElementById("share-copy").addEventListener("click", function () {
+    var text = buildShareText(
+      game.status,
+      game.guesses.length,
+      game.evaluations,
+      formatTime(elapsedSeconds)
+    );
+    navigator.clipboard.writeText(text).then(function () {
+      showMessage("Copiado!");
+    }).catch(function () {
+      showMessage("Erro ao copiar");
+    });
+  });
+}
+
 // ---- Game ----
 
 function init() {
@@ -120,6 +164,7 @@ function init() {
   document.addEventListener("keydown", handleKeyDown);
   document.getElementById("keyboard").addEventListener("click", handleKeyClick);
   document.getElementById("modal-close").addEventListener("click", hideModal);
+  setupShareButtons();
 }
 
 function rebuildLetterStates() {
