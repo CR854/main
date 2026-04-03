@@ -12,9 +12,9 @@
   --color-text: #1a1a1b;
   --color-key-bg: #d3d6da;
   --color-key-text: #1a1a1b;
-  --tile-size: min(62px, 14vw);
-  --tile-gap: 5px;
-  --tile-font: 2rem;
+  --tile-size: min(52px, 12vw);
+  --tile-gap: 4px;
+  --tile-font: 1.6rem;
 }
 
 * {
@@ -25,6 +25,11 @@
   touch-action: manipulation;
 }
 
+html {
+  touch-action: manipulation;
+  -ms-touch-action: manipulation;
+}
+
 body {
   font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
   background: var(--color-bg);
@@ -32,6 +37,7 @@ body {
   display: flex;
   justify-content: center;
   min-height: 100dvh;
+  overflow-x: hidden;
 }
 
 #app {
@@ -40,7 +46,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 0 8px;
+  padding: 0 6px;
 }
 
 /* ---- Name Entry Screen ---- */
@@ -66,7 +72,7 @@ body {
 }
 
 #name-card h1 {
-  font-size: 1.8rem;
+  font-size: 1.6rem;
   font-weight: 700;
   letter-spacing: 0.05em;
   margin-bottom: 16px;
@@ -78,10 +84,11 @@ body {
   margin-bottom: 20px;
 }
 
+/* 16px minimum prevents iOS auto-zoom on focus */
 #player-name-input {
   width: 100%;
   padding: 12px 16px;
-  font-size: 1.1rem;
+  font-size: 16px;
   border: 2px solid var(--color-border);
   border-radius: 8px;
   outline: none;
@@ -97,7 +104,7 @@ body {
 #start-game-btn {
   width: 100%;
   padding: 14px;
-  font-size: 1.1rem;
+  font-size: 16px;
   font-weight: 700;
   background: var(--color-correct);
   color: #fff;
@@ -120,26 +127,26 @@ header {
   width: 100%;
   text-align: center;
   border-bottom: 2px solid var(--color-border);
-  padding: 12px 0;
+  padding: 8px 0;
 }
 
 header h1 {
-  font-size: 1.6rem;
+  font-size: 1.3rem;
   font-weight: 700;
   letter-spacing: 0.05em;
 }
 
 #timer-display {
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   font-weight: 600;
   color: var(--color-absent);
-  margin-top: 4px;
+  margin-top: 2px;
 }
 
 /* ---- Message toast ---- */
 #message-container {
   position: fixed;
-  top: 60px;
+  top: 50px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 100;
@@ -153,9 +160,9 @@ header h1 {
 .message {
   background: var(--color-text);
   color: var(--color-bg);
-  padding: 10px 18px;
+  padding: 8px 16px;
   border-radius: 6px;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   font-weight: 600;
   animation: fadeIn 0.15s ease;
 }
@@ -179,13 +186,13 @@ header h1 {
   width: 100%;
   display: flex;
   justify-content: center;
-  margin: 12px 0 4px;
+  margin: 8px 0 2px;
 }
 
 #baby-image {
-  width: min(180px, 40vw);
+  width: min(140px, 32vw);
   height: auto;
-  border-radius: 12px;
+  border-radius: 10px;
   object-fit: cover;
 }
 
@@ -195,7 +202,7 @@ header h1 {
   grid-template-columns: repeat(5, var(--tile-size));
   grid-template-rows: repeat(6, var(--tile-size));
   gap: var(--tile-gap);
-  margin: 20px 0;
+  margin: 10px 0;
 }
 
 .tile {
@@ -285,13 +292,13 @@ header h1 {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 6px;
-  margin-bottom: 12px;
+  gap: 4px;
+  margin-bottom: 8px;
 }
 
 .keyboard-row {
   display: flex;
-  gap: 5px;
+  gap: 4px;
   width: 100%;
   justify-content: center;
 }
@@ -302,13 +309,13 @@ header h1 {
 
 #keyboard button {
   flex: 1;
-  max-width: 44px;
-  height: 58px;
+  max-width: 38px;
+  height: 50px;
   border: none;
   border-radius: 4px;
   background: var(--color-key-bg);
   color: var(--color-key-text);
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   font-weight: 700;
   cursor: pointer;
   display: flex;
@@ -316,6 +323,7 @@ header h1 {
   justify-content: center;
   user-select: none;
   -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
   transition: background 0.15s;
 }
 
@@ -324,9 +332,9 @@ header h1 {
 }
 
 #keyboard button.key-wide {
-  max-width: 66px;
+  max-width: 58px;
   flex: 1.5;
-  font-size: 0.7rem;
+  font-size: 0.65rem;
 }
 
 #keyboard button.correct {
@@ -363,11 +371,13 @@ header h1 {
 #modal {
   background: var(--color-bg);
   border-radius: 12px;
-  padding: 28px 24px;
-  max-width: 400px;
+  padding: 24px 20px;
+  max-width: 360px;
   width: 90%;
   text-align: center;
   position: relative;
+  max-height: 90vh;
+  overflow-y: auto;
 }
 
 #modal-close {
@@ -382,10 +392,10 @@ header h1 {
 }
 
 #modal-baby-image {
-  width: min(200px, 50vw);
+  width: min(160px, 40vw);
   height: auto;
-  border-radius: 12px;
-  margin-bottom: 12px;
+  border-radius: 10px;
+  margin-bottom: 10px;
 }
 
 #modal-baby-image.hidden {
@@ -393,13 +403,13 @@ header h1 {
 }
 
 #modal h2 {
-  margin-bottom: 8px;
-  font-size: 1.3rem;
+  margin-bottom: 6px;
+  font-size: 1.2rem;
 }
 
 #modal-message {
-  margin-bottom: 16px;
-  font-size: 1rem;
+  margin-bottom: 12px;
+  font-size: 0.9rem;
   color: var(--color-absent);
   white-space: pre-line;
 }
@@ -408,8 +418,8 @@ header h1 {
 #stats-container {
   display: flex;
   justify-content: center;
-  gap: 16px;
-  margin-bottom: 20px;
+  gap: 12px;
+  margin-bottom: 16px;
 }
 
 .stat {
@@ -419,12 +429,12 @@ header h1 {
 }
 
 .stat-value {
-  font-size: 1.6rem;
+  font-size: 1.4rem;
   font-weight: 700;
 }
 
 .stat-label {
-  font-size: 0.65rem;
+  font-size: 0.6rem;
   color: var(--color-absent);
   text-transform: uppercase;
 }
@@ -432,29 +442,29 @@ header h1 {
 /* ---- Guess distribution ---- */
 #guess-distribution {
   text-align: left;
-  margin-top: 8px;
+  margin-top: 6px;
 }
 
 .dist-row {
   display: flex;
   align-items: center;
-  gap: 6px;
-  margin-bottom: 4px;
-  font-size: 0.85rem;
+  gap: 5px;
+  margin-bottom: 3px;
+  font-size: 0.8rem;
   font-weight: 600;
 }
 
 .dist-row .dist-label {
-  width: 14px;
+  width: 12px;
   text-align: right;
 }
 
 .dist-row .dist-bar {
   background: var(--color-absent);
   color: #fff;
-  padding: 2px 8px;
+  padding: 2px 6px;
   border-radius: 3px;
-  min-width: 24px;
+  min-width: 20px;
   text-align: right;
   transition: width 0.3s ease;
 }
@@ -465,13 +475,13 @@ header h1 {
 
 /* ---- Share button ---- */
 #share-buttons {
-  margin-top: 20px;
+  margin-top: 16px;
 }
 
 .share-btn {
   width: 100%;
-  padding: 16px;
-  font-size: 1.1rem;
+  padding: 14px;
+  font-size: 16px;
   font-weight: 700;
   border: none;
   border-radius: 8px;
@@ -480,6 +490,7 @@ header h1 {
   background: var(--color-correct);
   font-family: inherit;
   letter-spacing: 0.03em;
+  touch-action: manipulation;
 }
 
 .share-btn:active {

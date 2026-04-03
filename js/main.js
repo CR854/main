@@ -128,28 +128,48 @@ function buildShareText(status, guessCount, evaluations, timeStr) {
 }
 
 function copyToClipboard(text) {
-  // Try modern API first
-  if (navigator.clipboard && navigator.clipboard.writeText) {
+  // iOS Safari: use navigator.share if available (most reliable)
+  if (navigator.share) {
+    navigator.share({ text: text }).catch(function () {
+      // User cancelled share — that's OK
+    });
+    return;
+  }
+
+  // Try modern clipboard API
+  if (navigator.clipboard && window.isSecureContext) {
     navigator.clipboard.writeText(text).then(function () {
       showMessage("Copiado!");
     }).catch(function () {
       fallbackCopy(text);
     });
-  } else {
-    fallbackCopy(text);
+    return;
   }
+
+  fallbackCopy(text);
 }
 
 function fallbackCopy(text) {
   var ta = document.createElement("textarea");
   ta.value = text;
   ta.style.position = "fixed";
-  ta.style.left = "-9999px";
+  ta.style.left = "0";
   ta.style.top = "0";
-  ta.setAttribute("readonly", "");
+  ta.style.width = "1px";
+  ta.style.height = "1px";
+  ta.style.opacity = "0";
   document.body.appendChild(ta);
-  ta.focus();
-  ta.select();
+
+  // iOS requires contentEditable + setSelectionRange
+  ta.contentEditable = true;
+  ta.readOnly = false;
+  var range = document.createRange();
+  range.selectNodeContents(ta);
+  var sel = window.getSelection();
+  sel.removeAllRanges();
+  sel.addRange(range);
+  ta.setSelectionRange(0, 999999);
+
   try {
     document.execCommand("copy");
     showMessage("Copiado!");
