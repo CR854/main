@@ -2,8 +2,6 @@
 // Qual é Meu Nome? — UI Rendering
 // =============================================================
 
-const WORD_LENGTH = 5;
-const MAX_GUESSES = 6;
 const WIN_MESSAGES = [
   "Gênio!",
   "Magnífico!",

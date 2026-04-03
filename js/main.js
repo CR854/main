@@ -3,7 +3,6 @@
 // =============================================================
 // Depends on: words.js, game.js, ui.js, storage.js (loaded first)
 
-const WORD_LENGTH = 5;
 let game;
 let currentInput = [];
 let currentRow = 0;
