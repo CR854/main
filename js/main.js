@@ -112,7 +112,7 @@ function sendResultEmail(status, guessCount) {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-      _subject: "Qual é Meu Nome? - Resultado de " + playerName,
+      _subject: "Qual vai ser o nome do bebê? - Resultado de " + playerName,
       message: message,
     }),
   }).catch(function () {
@@ -132,7 +132,7 @@ function buildShareText(status, guessCount, evaluations, timeStr) {
     }).join("");
   }).join("\n");
 
-  return "Qual é Meu Nome? " + result + "\n"
+  return "Qual vai ser o nome do bebê? " + result + "\n"
     + "Tempo: " + timeStr + "\n\n"
     + lines;
 }

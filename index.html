@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Qual é Meu Nome?</title>
+  <title>Qual vai ser o nome do bebê?</title>
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
   <!-- Name Entry Screen -->
   <div id="name-screen">
     <div id="name-card">
-      <h1>Qual é Meu Nome?</h1>
+      <h1>Qual vai ser o nome do bebê?</h1>
       <p>Digite <u><b>seu</b></u> nome para começar:</p>
       <input type="text" id="player-name-input" placeholder="Seu nome" autocomplete="off" />
       <button id="start-game-btn">Jogar</button>
@@ -58,7 +58,7 @@
 
   <div id="app" class="hidden">
     <header>
-      <h1>Qual é Meu Nome?</h1>
+      <h1>Qual vai ser o nome do bebê?</h1>
       <div id="timer-display">00:00</div>
     </header>
 
@@ -118,26 +118,6 @@
         <img id="modal-baby-image" src="" alt="Resultado" class="hidden" />
         <h2 id="modal-title"></h2>
         <p id="modal-message"></p>
-        <div id="stats-container">
-          <div class="stat">
-            <span class="stat-value" id="stat-played">0</span>
-            <span class="stat-label">Jogos</span>
-          </div>
-          <div class="stat">
-            <span class="stat-value" id="stat-win-pct">0</span>
-            <span class="stat-label">Vitórias %</span>
-          </div>
-          <div class="stat">
-            <span class="stat-value" id="stat-streak">0</span>
-            <span class="stat-label">Sequência atual</span>
-          </div>
-          <div class="stat">
-            <span class="stat-value" id="stat-max-streak">0</span>
-            <span class="stat-label">Melhor sequência</span>
-          </div>
-        </div>
-        <h3>Distribuição de palpites</h3>
-        <div id="guess-distribution"></div>
         <div id="share-buttons">
           <button id="share-copy" class="share-btn">Copiar Resultado</button>
           <button id="share-whatsapp" class="share-btn share-whatsapp">Compartilhar</button>

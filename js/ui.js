@@ -142,7 +142,6 @@ function showGameOver(status, guessCount, correctWord, stats, timeStr) {
   var message = document.getElementById("modal-message");
   var modalImg = document.getElementById("modal-baby-image");
 
-  // Show result baby image in modal
   if (status === "won") {
     modalImg.src = "img/baby-right.jpg";
     title.textContent = WIN_MESSAGES[guessCount - 1] || "Parabéns!";
@@ -150,7 +149,7 @@ function showGameOver(status, guessCount, correctWord, stats, timeStr) {
   } else {
     modalImg.src = "img/baby-wrong.jpg";
     title.textContent = "Que pena!";
-    message.innerHTML = "O nome era: <strong>" + correctWord + "</strong>";
+    message.innerHTML = "O nome será: <strong>" + correctWord + "</strong>";
   }
   modalImg.classList.remove("hidden");
 
@@ -158,7 +157,6 @@ function showGameOver(status, guessCount, correctWord, stats, timeStr) {
     message.innerHTML += "<br>Tempo: " + timeStr;
   }
 
-  renderStats(stats);
   overlay.classList.remove("hidden");
 }
 
