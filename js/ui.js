@@ -143,14 +143,14 @@ function showGameOver(status, guessCount, correctWord, stats, timeStr) {
 
   if (status === "won") {
     title.textContent = WIN_MESSAGES[guessCount - 1] || "Parabéns!";
-    message.textContent = "Você acertou em " + guessCount + " tentativa" + (guessCount > 1 ? "s" : "") + "!";
+    message.innerHTML = "Você acertou em " + guessCount + " tentativa" + (guessCount > 1 ? "s" : "") + "!";
   } else {
     title.textContent = "Que pena!";
-    message.textContent = "O nome era: " + correctWord;
+    message.innerHTML = "O nome era: <strong>" + correctWord + "</strong>";
   }
 
   if (timeStr) {
-    message.textContent += "\nTempo: " + timeStr;
+    message.innerHTML += "<br>Tempo: " + timeStr;
   }
 
   renderStats(stats);

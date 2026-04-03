@@ -3,11 +3,6 @@
 // =============================================================
 // Depends on: words.js, game.js, ui.js, storage.js (loaded first)
 
-const EMAIL_RECIPIENTS = [
-  "rocha.carlo@gmail.com",
-  "rebecca.d.fischer@gmail.com",
-];
-
 let game;
 let currentInput = [];
 let currentRow = 0;
@@ -97,18 +92,22 @@ function sendResultEmail(status, guessCount) {
     return (i + 1) + ". " + g + " " + colors;
   }).join("\n");
 
-  var subject = "Qual é Meu Nome? - Resultado de " + playerName;
-  var body = "Jogador: " + playerName + "\n"
+  var message = "Jogador: " + playerName + "\n"
     + "Resultado: " + resultText + "\n"
     + "Tempo: " + formatTime(elapsedSeconds) + "\n"
     + "Resposta: " + game.correctWord + "\n\n"
     + "Palpites:\n" + guessLines;
 
-  var mailto = "mailto:" + EMAIL_RECIPIENTS.join(",")
-    + "?subject=" + encodeURIComponent(subject)
-    + "&body=" + encodeURIComponent(body);
-
-  window.open(mailto, "_blank");
+  fetch("https://formspree.io/f/mykbndyg", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      _subject: "Qual é Meu Nome? - Resultado de " + playerName,
+      message: message,
+    }),
+  }).catch(function () {
+    // silently ignore send failures
+  });
 }
 
 // ---- Game ----
