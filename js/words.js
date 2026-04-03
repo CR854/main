@@ -328,6 +328,7 @@ const ALLOWED_WORDS = [
   "SIMON",
   "SLADE",
   "STEVE",
+  "TALES",
   "TALON",
   "TARIK",
   "TARIQ",

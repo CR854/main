@@ -344,6 +344,7 @@ header h1 {
 
 .tile.filled {
   border-color: var(--color-border-filled);
+  background: rgba(255, 255, 255, 0.92);
   animation: pop 0.1s ease;
 }
 
