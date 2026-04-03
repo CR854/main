@@ -26,6 +26,14 @@ function loadGame(correctWord) {
   }
 }
 
+function clearSavedGame(correctWord) {
+  try {
+    localStorage.removeItem(gameKey(correctWord));
+  } catch (_) {
+    // silently ignore
+  }
+}
+
 function defaultStats() {
   return {
     played: 0,

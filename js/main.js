@@ -116,27 +116,7 @@ function sendResultEmail(status, guessCount) {
 function init() {
   game = new Game(CORRECT_WORD, ALLOWED_WORDS);
   createBoard();
-
-  // Try to restore saved game
-  var saved = loadGame(CORRECT_WORD);
-  if (saved && saved.correctWord === CORRECT_WORD) {
-    game.restore(saved);
-    currentRow = game.guesses.length;
-
-    for (var r = 0; r < game.guesses.length; r++) {
-      revealRowInstant(r, game.evaluations[r], game.guesses[r]);
-    }
-
-    rebuildLetterStates();
-    updateKeyboard(letterStates);
-
-    if (game.status !== "playing") {
-      setTimeout(function () {
-        var stats = loadStats();
-        showGameOver(game.status, game.guesses.length, game.correctWord, stats);
-      }, 500);
-    }
-  }
+  clearSavedGame(CORRECT_WORD);
 
   document.addEventListener("keydown", handleKeyDown);
   document.getElementById("keyboard").addEventListener("click", handleKeyClick);
@@ -248,8 +228,6 @@ function submitGuess() {
       }
     }
     updateKeyboard(letterStates);
-
-    saveGame(game.serialize());
 
     if (result.status === "won") {
       stopTimer();
