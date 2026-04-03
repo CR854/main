@@ -3,62 +3,157 @@
 // =============================================================
 // Depends on: words.js, game.js, ui.js, storage.js (loaded first)
 
+const EMAIL_RECIPIENTS = [
+  "rocha.carlo@gmail.com",
+  "rebecca.d.fischer@gmail.com",
+];
+
 let game;
 let currentInput = [];
 let currentRow = 0;
 let letterStates = {};
 let isRevealing = false;
 
+let playerName = "";
+let timerStart = null;
+let timerInterval = null;
+let elapsedSeconds = 0;
+
+// ---- Name screen ----
+
+function setupNameScreen() {
+  const nameInput = document.getElementById("player-name-input");
+  const startBtn = document.getElementById("start-game-btn");
+
+  function startWithName() {
+    const name = nameInput.value.trim();
+    if (!name) {
+      nameInput.focus();
+      return;
+    }
+    playerName = name;
+    document.getElementById("name-screen").classList.add("hidden");
+    document.getElementById("app").classList.remove("hidden");
+    init();
+  }
+
+  startBtn.addEventListener("click", startWithName);
+  nameInput.addEventListener("keydown", function (e) {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      startWithName();
+    }
+  });
+
+  nameInput.focus();
+}
+
+// ---- Timer ----
+
+function startTimer() {
+  if (timerStart) return;
+  timerStart = Date.now();
+  timerInterval = setInterval(updateTimerDisplay, 1000);
+}
+
+function stopTimer() {
+  if (timerInterval) {
+    clearInterval(timerInterval);
+    timerInterval = null;
+  }
+  if (timerStart) {
+    elapsedSeconds = Math.floor((Date.now() - timerStart) / 1000);
+  }
+}
+
+function updateTimerDisplay() {
+  if (!timerStart) return;
+  elapsedSeconds = Math.floor((Date.now() - timerStart) / 1000);
+  var mins = Math.floor(elapsedSeconds / 60);
+  var secs = elapsedSeconds % 60;
+  document.getElementById("timer-display").textContent =
+    String(mins).padStart(2, "0") + ":" + String(secs).padStart(2, "0");
+}
+
+function formatTime(totalSeconds) {
+  var mins = Math.floor(totalSeconds / 60);
+  var secs = totalSeconds % 60;
+  return String(mins).padStart(2, "0") + ":" + String(secs).padStart(2, "0");
+}
+
+// ---- Email ----
+
+function sendResultEmail(status, guessCount) {
+  var resultText = status === "won"
+    ? "ACERTOU em " + guessCount + " tentativa" + (guessCount > 1 ? "s" : "")
+    : "NAO ACERTOU";
+
+  var guessLines = game.guesses.map(function (g, i) {
+    var colors = game.evaluations[i].map(function (e) {
+      if (e === "correct") return "🟩";
+      if (e === "present") return "🟨";
+      return "⬜";
+    }).join("");
+    return (i + 1) + ". " + g + " " + colors;
+  }).join("\n");
+
+  var subject = "Qual é Meu Nome? - Resultado de " + playerName;
+  var body = "Jogador: " + playerName + "\n"
+    + "Resultado: " + resultText + "\n"
+    + "Tempo: " + formatTime(elapsedSeconds) + "\n"
+    + "Resposta: " + game.correctWord + "\n\n"
+    + "Palpites:\n" + guessLines;
+
+  var mailto = "mailto:" + EMAIL_RECIPIENTS.join(",")
+    + "?subject=" + encodeURIComponent(subject)
+    + "&body=" + encodeURIComponent(body);
+
+  window.open(mailto, "_blank");
+}
+
+// ---- Game ----
+
 function init() {
   game = new Game(CORRECT_WORD, ALLOWED_WORDS);
   createBoard();
 
   // Try to restore saved game
-  const saved = loadGame(CORRECT_WORD);
+  var saved = loadGame(CORRECT_WORD);
   if (saved && saved.correctWord === CORRECT_WORD) {
     game.restore(saved);
     currentRow = game.guesses.length;
 
-    // Rebuild board from saved state
-    for (let r = 0; r < game.guesses.length; r++) {
+    for (var r = 0; r < game.guesses.length; r++) {
       revealRowInstant(r, game.evaluations[r], game.guesses[r]);
     }
 
-    // Rebuild keyboard state
     rebuildLetterStates();
     updateKeyboard(letterStates);
 
-    // If game was already over, show modal after a short delay
     if (game.status !== "playing") {
-      setTimeout(() => {
-        const stats = loadStats();
-        showGameOver(
-          game.status,
-          game.guesses.length,
-          game.correctWord,
-          stats
-        );
+      setTimeout(function () {
+        var stats = loadStats();
+        showGameOver(game.status, game.guesses.length, game.correctWord, stats);
       }, 500);
     }
   }
 
-  // Wire keyboard events
   document.addEventListener("keydown", handleKeyDown);
   document.getElementById("keyboard").addEventListener("click", handleKeyClick);
   document.getElementById("modal-close").addEventListener("click", hideModal);
 }
 
 function rebuildLetterStates() {
-  const priority = { correct: 3, present: 2, absent: 1 };
+  var priority = { correct: 3, present: 2, absent: 1 };
   letterStates = {};
 
-  for (let r = 0; r < game.guesses.length; r++) {
-    const guess = game.guesses[r];
-    const eval_ = game.evaluations[r];
-    for (let c = 0; c < WORD_LENGTH; c++) {
-      const letter = guess[c];
-      const state = eval_[c];
-      const cur = letterStates[letter];
+  for (var r = 0; r < game.guesses.length; r++) {
+    var guess = game.guesses[r];
+    var eval_ = game.evaluations[r];
+    for (var c = 0; c < WORD_LENGTH; c++) {
+      var letter = guess[c];
+      var state = eval_[c];
+      var cur = letterStates[letter];
       if (!cur || priority[state] > priority[cur]) {
         letterStates[letter] = state;
       }
@@ -76,7 +171,7 @@ function handleKeyDown(e) {
     e.preventDefault();
     deleteLetter();
   } else {
-    const key = e.key.toUpperCase();
+    var key = e.key.toUpperCase();
     if (/^[A-Z]$/.test(key)) {
       addLetter(key);
     }
@@ -84,10 +179,10 @@ function handleKeyDown(e) {
 }
 
 function handleKeyClick(e) {
-  const btn = e.target.closest("button[data-key]");
+  var btn = e.target.closest("button[data-key]");
   if (!btn) return;
 
-  const key = btn.dataset.key;
+  var key = btn.dataset.key;
   if (key === "ENTER") {
     submitGuess();
   } else if (key === "BACKSPACE") {
@@ -100,6 +195,11 @@ function handleKeyClick(e) {
 function addLetter(letter) {
   if (game.status !== "playing" || isRevealing) return;
   if (currentInput.length >= WORD_LENGTH) return;
+
+  // Start timer on first letter of the entire game
+  if (!timerStart) {
+    startTimer();
+  }
 
   currentInput.push(letter);
   setTileLetter(currentRow, currentInput.length - 1, letter);
@@ -116,7 +216,7 @@ function deleteLetter() {
 function submitGuess() {
   if (game.status !== "playing" || isRevealing) return;
 
-  const guess = currentInput.join("");
+  var guess = currentInput.join("");
 
   if (guess.length < WORD_LENGTH) {
     shakeRow(currentRow);
@@ -124,7 +224,7 @@ function submitGuess() {
     return;
   }
 
-  const result = game.submitGuess(guess);
+  var result = game.submitGuess(guess);
 
   if (result.error === "not_in_list") {
     shakeRow(currentRow);
@@ -134,36 +234,37 @@ function submitGuess() {
 
   if (result.error) return;
 
-  // Valid guess — reveal
   isRevealing = true;
-  const revealingRow = currentRow;
+  var revealingRow = currentRow;
 
-  revealRow(revealingRow, result.evaluation, () => {
-    // Update keyboard after reveal animation
-    const priority = { correct: 3, present: 2, absent: 1 };
-    for (let c = 0; c < WORD_LENGTH; c++) {
-      const letter = guess[c];
-      const state = result.evaluation[c];
-      const cur = letterStates[letter];
+  revealRow(revealingRow, result.evaluation, function () {
+    var priority = { correct: 3, present: 2, absent: 1 };
+    for (var c = 0; c < WORD_LENGTH; c++) {
+      var letter = guess[c];
+      var state = result.evaluation[c];
+      var cur = letterStates[letter];
       if (!cur || priority[state] > priority[cur]) {
         letterStates[letter] = state;
       }
     }
     updateKeyboard(letterStates);
 
-    // Save state
     saveGame(game.serialize());
 
     if (result.status === "won") {
+      stopTimer();
       bounceRow(revealingRow);
-      setTimeout(() => {
-        const stats = recordResult("won", game.guesses.length);
-        showGameOver("won", game.guesses.length, game.correctWord, stats);
+      setTimeout(function () {
+        var stats = recordResult("won", game.guesses.length);
+        showGameOver("won", game.guesses.length, game.correctWord, stats, formatTime(elapsedSeconds));
+        sendResultEmail("won", game.guesses.length);
       }, 800);
     } else if (result.status === "lost") {
-      setTimeout(() => {
-        const stats = recordResult("lost", game.guesses.length);
-        showGameOver("lost", game.guesses.length, game.correctWord, stats);
+      stopTimer();
+      setTimeout(function () {
+        var stats = recordResult("lost", game.guesses.length);
+        showGameOver("lost", game.guesses.length, game.correctWord, stats, formatTime(elapsedSeconds));
+        sendResultEmail("lost", game.guesses.length);
       }, 400);
     }
 
@@ -174,5 +275,5 @@ function submitGuess() {
   currentRow++;
 }
 
-// Start the game when DOM is ready
-document.addEventListener("DOMContentLoaded", init);
+// Start with name screen
+document.addEventListener("DOMContentLoaded", setupNameScreen);

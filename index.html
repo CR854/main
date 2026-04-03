@@ -7,9 +7,20 @@
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
-  <div id="app">
+  <!-- Name Entry Screen -->
+  <div id="name-screen">
+    <div id="name-card">
+      <h1>Qual é Meu Nome?</h1>
+      <p>Digite seu nome para começar:</p>
+      <input type="text" id="player-name-input" placeholder="Seu nome" autocomplete="off" />
+      <button id="start-game-btn">Jogar</button>
+    </div>
+  </div>
+
+  <div id="app" class="hidden">
     <header>
       <h1>Qual é Meu Nome?</h1>
+      <div id="timer-display">00:00</div>
     </header>
 
     <div id="message-container"></div>

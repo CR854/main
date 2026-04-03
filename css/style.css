@@ -41,6 +41,78 @@ body {
   padding: 0 8px;
 }
 
+/* ---- Name Entry Screen ---- */
+#name-screen {
+  position: fixed;
+  inset: 0;
+  background: var(--color-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 300;
+}
+
+#name-screen.hidden {
+  display: none;
+}
+
+#name-card {
+  text-align: center;
+  padding: 40px 32px;
+  max-width: 380px;
+  width: 90%;
+}
+
+#name-card h1 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  margin-bottom: 16px;
+}
+
+#name-card p {
+  font-size: 1rem;
+  color: var(--color-absent);
+  margin-bottom: 20px;
+}
+
+#player-name-input {
+  width: 100%;
+  padding: 12px 16px;
+  font-size: 1.1rem;
+  border: 2px solid var(--color-border);
+  border-radius: 8px;
+  outline: none;
+  text-align: center;
+  font-family: inherit;
+  margin-bottom: 16px;
+}
+
+#player-name-input:focus {
+  border-color: var(--color-correct);
+}
+
+#start-game-btn {
+  width: 100%;
+  padding: 14px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  background: var(--color-correct);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+#start-game-btn:hover {
+  filter: brightness(0.9);
+}
+
+#app.hidden {
+  display: none;
+}
+
 /* ---- Header ---- */
 header {
   width: 100%;
@@ -53,6 +125,13 @@ header h1 {
   font-size: 1.6rem;
   font-weight: 700;
   letter-spacing: 0.05em;
+}
+
+#timer-display {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-absent);
+  margin-top: 4px;
 }
 
 /* ---- Message toast ---- */
@@ -294,6 +373,7 @@ header h1 {
   margin-bottom: 16px;
   font-size: 1rem;
   color: var(--color-absent);
+  white-space: pre-line;
 }
 
 /* ---- Stats ---- */

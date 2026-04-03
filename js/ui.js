@@ -136,17 +136,21 @@ function showMessage(text, duration = 1500) {
   }, duration);
 }
 
-function showGameOver(status, guessCount, correctWord, stats) {
-  const overlay = document.getElementById("modal-overlay");
-  const title = document.getElementById("modal-title");
-  const message = document.getElementById("modal-message");
+function showGameOver(status, guessCount, correctWord, stats, timeStr) {
+  var overlay = document.getElementById("modal-overlay");
+  var title = document.getElementById("modal-title");
+  var message = document.getElementById("modal-message");
 
   if (status === "won") {
     title.textContent = WIN_MESSAGES[guessCount - 1] || "Parabéns!";
-    message.textContent = `Você acertou em ${guessCount} tentativa${guessCount > 1 ? "s" : ""}!`;
+    message.textContent = "Você acertou em " + guessCount + " tentativa" + (guessCount > 1 ? "s" : "") + "!";
   } else {
     title.textContent = "Que pena!";
-    message.textContent = `O nome era: ${correctWord}`;
+    message.textContent = "O nome era: " + correctWord;
+  }
+
+  if (timeStr) {
+    message.textContent += "\nTempo: " + timeStr;
   }
 
   renderStats(stats);
