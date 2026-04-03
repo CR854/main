@@ -189,6 +189,17 @@ function setupShareButtons() {
     );
     copyToClipboard(text);
   });
+
+  document.getElementById("share-whatsapp").addEventListener("click", function () {
+    var text = buildShareText(
+      game.status,
+      game.guesses.length,
+      game.evaluations,
+      formatTime(elapsedSeconds)
+    );
+    var url = "https://wa.me/?text=" + encodeURIComponent(text);
+    window.open(url, "_blank");
+  });
 }
 
 // ---- Game ----
