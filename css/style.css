@@ -172,6 +172,21 @@ header h1 {
   to { opacity: 0; }
 }
 
+/* ---- Baby image ---- */
+#baby-image-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin: 12px 0 4px;
+}
+
+#baby-image {
+  width: min(180px, 40vw);
+  height: auto;
+  border-radius: 12px;
+  object-fit: cover;
+}
+
 /* ---- Board ---- */
 #board {
   display: grid;
@@ -362,6 +377,17 @@ header h1 {
   font-size: 1.4rem;
   cursor: pointer;
   color: var(--color-text);
+}
+
+#modal-baby-image {
+  width: min(200px, 50vw);
+  height: auto;
+  border-radius: 12px;
+  margin-bottom: 12px;
+}
+
+#modal-baby-image.hidden {
+  display: none;
 }
 
 #modal h2 {

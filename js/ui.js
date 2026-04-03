@@ -140,14 +140,19 @@ function showGameOver(status, guessCount, correctWord, stats, timeStr) {
   var overlay = document.getElementById("modal-overlay");
   var title = document.getElementById("modal-title");
   var message = document.getElementById("modal-message");
+  var modalImg = document.getElementById("modal-baby-image");
 
+  // Show result baby image in modal
   if (status === "won") {
+    modalImg.src = "img/baby-right.jpg";
     title.textContent = WIN_MESSAGES[guessCount - 1] || "Parabéns!";
     message.innerHTML = "Você acertou em " + guessCount + " tentativa" + (guessCount > 1 ? "s" : "") + "!";
   } else {
+    modalImg.src = "img/baby-wrong.jpg";
     title.textContent = "Que pena!";
     message.innerHTML = "O nome era: <strong>" + correctWord + "</strong>";
   }
+  modalImg.classList.remove("hidden");
 
   if (timeStr) {
     message.innerHTML += "<br>Tempo: " + timeStr;
