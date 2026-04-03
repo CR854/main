@@ -318,6 +318,7 @@ const ALLOWED_WORDS = [
   "SAMMY",
   "SANDY",
   "SANTO",
+  "SAULO",
   "SAVIO",
   "SCOTT",
   "SERGE",
