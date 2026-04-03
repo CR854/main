@@ -217,6 +217,15 @@ body {
   line-height: 1.3;
 }
 
+.instructions-note {
+  font-size: 0.9rem;
+  color: var(--color-correct);
+  margin-top: 4px;
+  margin-bottom: 8px;
+  text-align: center;
+  line-height: 1.4;
+}
+
 #start-playing-btn {
   display: block;
   width: 100%;
@@ -307,7 +316,6 @@ header h1 {
   height: auto;
   border-radius: 14px;
   object-fit: cover;
-  opacity: 0.35;
 }
 
 /* ---- Board ---- */
@@ -508,7 +516,8 @@ header h1 {
 }
 
 #modal-baby-image {
-  width: min(220px, 55vw);
+  width: 100%;
+  max-width: 320px;
   height: auto;
   border-radius: 12px;
   margin-bottom: 12px;
