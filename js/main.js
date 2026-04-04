@@ -306,6 +306,12 @@ function submitGuess() {
     return;
   }
 
+  // Easter eggs — check before submitting to game engine
+  if (guess === "CARLO" || guess === "ROCHA") {
+    handleEasterEgg(guess);
+    return;
+  }
+
   var result = game.submitGuess(guess);
 
   if (result.error === "not_in_list") {
@@ -359,6 +365,99 @@ function submitGuess() {
 
   currentInput = [];
   currentRow++;
+}
+
+function handleEasterEgg(guess) {
+  isRevealing = true;
+  var row = currentRow;
+  var allCorrect = ["correct", "correct", "correct", "correct", "correct"];
+
+  // Phase 1: reveal all tiles as green (correct)
+  revealRow(row, allCorrect, function () {
+    // Phase 2: show emoji
+    showMessage("😜", 1500);
+
+    if (guess === "CARLO") {
+      // Phase 3a: revert colors right-to-left to the real evaluation
+      var realEval = Game.evaluateGuess(guess, CORRECT_WORD);
+      var delay = 800;
+      for (var i = WORD_LENGTH - 1; i >= 0; i--) {
+        (function (col, state) {
+          setTimeout(function () {
+            var tile = getTile(row, col);
+            tile.classList.remove("correct", "present", "absent");
+            tile.classList.add("flip");
+            setTimeout(function () {
+              tile.classList.remove("flip");
+              tile.classList.add(state);
+              tile.classList.add("flip-out");
+              setTimeout(function () {
+                tile.classList.remove("flip-out");
+              }, 250);
+            }, 250);
+          }, delay);
+          delay += 400;
+        })(i, realEval[i]);
+      }
+
+      // After all tiles revert, submit the guess for real
+      setTimeout(function () {
+        var result = game.submitGuess(guess);
+        // Update keyboard with real evaluation
+        var priority = { correct: 3, present: 2, absent: 1 };
+        for (var c = 0; c < WORD_LENGTH; c++) {
+          var letter = guess[c];
+          var state = result.evaluation[c];
+          var cur = letterStates[letter];
+          if (!cur || priority[state] > priority[cur]) {
+            letterStates[letter] = state;
+          }
+        }
+        updateKeyboard(letterStates);
+        isRevealing = false;
+
+        if (result.status === "lost") {
+          stopTimer();
+          setTimeout(function () {
+            var stats = recordResult("lost", game.guesses.length);
+            showGameOver("lost", game.guesses.length, game.correctWord, stats, formatTime(elapsedSeconds));
+            sendResultEmail("lost", game.guesses.length);
+          }, 400);
+        }
+      }, delay + 200);
+
+      currentInput = [];
+      currentRow++;
+
+    } else if (guess === "ROCHA") {
+      // Phase 3b: erase tiles right-to-left, then show message
+      var delay = 800;
+      for (var i = WORD_LENGTH - 1; i >= 0; i--) {
+        (function (col) {
+          setTimeout(function () {
+            var tile = getTile(row, col);
+            tile.classList.add("flip");
+            setTimeout(function () {
+              tile.classList.remove("flip", "correct", "present", "absent", "filled");
+              tile.textContent = "";
+              tile.classList.add("flip-out");
+              setTimeout(function () {
+                tile.classList.remove("flip-out");
+              }, 250);
+            }, 250);
+          }, delay);
+          delay += 400;
+        })(i);
+      }
+
+      setTimeout(function () {
+        showMessage("Certo, mas não é o nome!", 2500);
+        // Reset input — row stays the same (guess not counted)
+        currentInput = [];
+        isRevealing = false;
+      }, delay + 200);
+    }
+  });
 }
 
 // Start with name screen

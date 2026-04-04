@@ -303,6 +303,7 @@ const ALLOWED_WORDS = [
   "ROBBY",
   "ROBIN",
   "ROCCO",
+  "ROCHA",
   "ROCKY",
   "RODDY",
   "ROGER",
