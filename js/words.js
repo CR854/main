@@ -276,6 +276,7 @@ const ALLOWED_WORDS = [
   "ORVAL",
   "OSCAR",
   "OSMAN",
+  "OTELO",
   "OWAIN",
   "OZZIE",
   "PABLO",
