@@ -80,6 +80,7 @@ const ALLOWED_WORDS = [
   "CARLO",
   "CASEY",
   "CECIL",
+  "CELIO",
   "CELSO",
   "CESAR",
   "CHASE",
