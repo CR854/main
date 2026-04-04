@@ -464,7 +464,7 @@ function handleEasterEgg(guess) {
       }
 
       setTimeout(function () {
-        showMessage("Certo, mas não é o nome!", 2500);
+        showMessage("Nome não encontrado", 2500);
         // Reset input — row stays the same (guess not counted)
         currentInput = [];
         isRevealing = false;
