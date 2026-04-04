@@ -367,6 +367,19 @@ function submitGuess() {
   currentRow++;
 }
 
+function showEasterEggEmoji(emoji) {
+  var el = document.getElementById("emoji-overlay");
+  el.textContent = emoji;
+  el.classList.remove("hidden");
+  // Remove and re-add to retrigger animation
+  el.style.animation = "none";
+  el.offsetHeight; // force reflow
+  el.style.animation = "";
+  setTimeout(function () {
+    el.classList.add("hidden");
+  }, 1500);
+}
+
 function handleEasterEgg(guess) {
   isRevealing = true;
   var row = currentRow;
@@ -374,8 +387,8 @@ function handleEasterEgg(guess) {
 
   // Phase 1: reveal all tiles as green (correct)
   revealRow(row, allCorrect, function () {
-    // Phase 2: show emoji
-    showMessage("😜", 1500);
+    // Phase 2: show large emoji on top of tiles
+    showEasterEggEmoji("😜");
 
     if (guess === "CARLO") {
       // Phase 3a: revert colors right-to-left to the real evaluation

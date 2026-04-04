@@ -411,6 +411,28 @@ header h1 {
   60% { transform: translateY(-10px); }
 }
 
+/* ---- Emoji overlay (easter eggs) ---- */
+#emoji-overlay {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 6rem;
+  z-index: 50;
+  pointer-events: none;
+  animation: emojiPop 0.3s ease;
+}
+
+#emoji-overlay.hidden {
+  display: none;
+}
+
+@keyframes emojiPop {
+  0% { transform: translate(-50%, -50%) scale(0); }
+  60% { transform: translate(-50%, -50%) scale(1.2); }
+  100% { transform: translate(-50%, -50%) scale(1); }
+}
+
 /* ---- Keyboard ---- */
 #keyboard {
   width: 100%;
