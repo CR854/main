@@ -20,7 +20,8 @@ let lang = "pt";
 var T = {
   pt: {
     gameTitle: "Qual vai ser o nome do bebê?",
-    namePrompt: 'Antes de começar, precisamos saber: qual é o <strong>seu</strong> nome?',
+    namePrompt: 'Antes de começar,',
+    namePromptBig: 'qual o seu nome?',
     nameHint: "Este é o seu nome, não o palpite!",
     namePlaceholder: "Seu nome",
     nameContinue: "Continuar",
@@ -51,7 +52,8 @@ var T = {
   },
   en: {
     gameTitle: "What will be the baby's name?",
-    namePrompt: 'Before we start, we need to know: what is <strong>your</strong> name?',
+    namePrompt: 'Before we start,',
+    namePromptBig: 'what is your name?',
     nameHint: "This is your name, not your guess!",
     namePlaceholder: "Your name",
     nameContinue: "Continue",
@@ -103,7 +105,8 @@ function setupLangScreen() {
 
 function applyTranslations() {
   // Name screen
-  document.getElementById("name-prompt").innerHTML = t("namePrompt");
+  document.getElementById("name-prompt").textContent = t("namePrompt");
+  document.getElementById("name-prompt-big").textContent = t("namePromptBig");
   document.getElementById("name-hint").textContent = t("nameHint");
   document.getElementById("player-name-input").placeholder = t("namePlaceholder");
   document.getElementById("start-game-btn").textContent = t("nameContinue");
