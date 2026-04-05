@@ -49,6 +49,67 @@ body {
   padding: 0 6px;
 }
 
+/* ---- Language Selection Screen ---- */
+#lang-screen {
+  position: fixed;
+  inset: 0;
+  background: var(--color-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 310;
+}
+
+#lang-screen.hidden {
+  display: none;
+}
+
+#lang-card {
+  text-align: center;
+  padding: 40px 32px;
+  max-width: 380px;
+  width: 90%;
+}
+
+#lang-card h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  margin-bottom: 6px;
+}
+
+.lang-subtitle {
+  font-size: 1rem;
+  color: var(--color-absent);
+  font-style: italic;
+  margin-bottom: 28px;
+}
+
+#lang-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.lang-btn {
+  width: 100%;
+  padding: 16px;
+  font-size: 16px;
+  font-weight: 700;
+  border: 2px solid var(--color-correct);
+  border-radius: 8px;
+  background: var(--color-bg);
+  color: var(--color-correct);
+  cursor: pointer;
+  font-family: inherit;
+  touch-action: manipulation;
+}
+
+.lang-btn:active {
+  background: var(--color-correct);
+  color: #fff;
+}
+
 /* ---- Name Entry Screen ---- */
 #name-screen {
   position: fixed;
@@ -72,16 +133,23 @@ body {
 }
 
 #name-card h1 {
-  font-size: 1.6rem;
+  font-size: 1.5rem;
   font-weight: 700;
   letter-spacing: 0.05em;
   margin-bottom: 16px;
 }
 
-#name-card p {
+#name-prompt {
   font-size: 1rem;
-  color: var(--color-absent);
-  margin-bottom: 20px;
+  color: var(--color-text);
+  margin-bottom: 8px;
+}
+
+#name-hint {
+  font-size: 0.8rem;
+  color: var(--color-present);
+  font-weight: 600;
+  margin-bottom: 16px;
 }
 
 /* 16px minimum prevents iOS auto-zoom on focus */
@@ -590,4 +658,11 @@ header h1 {
 
 .share-btn:active {
   filter: brightness(0.85);
+}
+
+#share-hint {
+  font-size: 0.75rem;
+  color: var(--color-absent);
+  margin-top: 10px;
+  font-style: italic;
 }

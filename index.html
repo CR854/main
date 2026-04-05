@@ -7,26 +7,39 @@
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
+  <!-- Language Selection Screen -->
+  <div id="lang-screen">
+    <div id="lang-card">
+      <h1>Qual vai ser o nome do bebê?</h1>
+      <p class="lang-subtitle">What will be the baby's name?</p>
+      <div id="lang-buttons">
+        <button class="lang-btn" data-lang="pt">Português</button>
+        <button class="lang-btn" data-lang="en">English</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Name Entry Screen -->
-  <div id="name-screen">
+  <div id="name-screen" class="hidden">
     <div id="name-card">
       <h1>Qual vai ser o nome do bebê?</h1>
-      <p>Digite <u><b>seu</b></u> nome para começar:</p>
+      <p id="name-prompt">Antes de começar, precisamos saber: qual é o <strong>seu</strong> nome?</p>
+      <p id="name-hint">Este é o seu nome, não o palpite!</p>
       <input type="text" id="player-name-input" placeholder="Seu nome" autocomplete="off" />
-      <button id="start-game-btn">Jogar</button>
+      <button id="start-game-btn">Continuar</button>
     </div>
   </div>
 
   <!-- Instructions Screen -->
   <div id="instructions-screen" class="hidden">
     <div id="instructions-card">
-      <h1>Como jogar</h1>
-      <p>Descubra o nome do bebê em 6 tentativas. O nome tem 5 letras.</p>
-      <ul>
+      <h1 id="instr-title">Como jogar</h1>
+      <p id="instr-desc">Descubra o nome do bebê em 6 tentativas. O nome tem 5 letras.</p>
+      <ul id="instr-rules">
         <li>Cada palpite deve ser um nome de 5 letras.</li>
         <li>Após cada palpite, as cores das letras mudam para mostrar o quão perto você está.</li>
       </ul>
-      <h3>Exemplos</h3>
+      <h3 id="instr-examples-title">Exemplos</h3>
       <div class="example-row">
         <span class="ex-tile correct">C</span>
         <span class="ex-tile">L</span>
@@ -34,7 +47,7 @@
         <span class="ex-tile">R</span>
         <span class="ex-tile">A</span>
       </div>
-      <p class="example-text">A letra <strong>C</strong> está no nome e na posição correta.</p>
+      <p class="example-text" id="ex1-text">A letra <strong>C</strong> está no nome e na posição correta.</p>
       <div class="example-row">
         <span class="ex-tile">J</span>
         <span class="ex-tile present">U</span>
@@ -42,7 +55,7 @@
         <span class="ex-tile">I</span>
         <span class="ex-tile">A</span>
       </div>
-      <p class="example-text">A letra <strong>U</strong> está no nome, mas em outra posição.</p>
+      <p class="example-text" id="ex2-text">A letra <strong>U</strong> está no nome, mas em outra posição.</p>
       <div class="example-row">
         <span class="ex-tile">E</span>
         <span class="ex-tile">L</span>
@@ -50,8 +63,8 @@
         <span class="ex-tile">N</span>
         <span class="ex-tile absent">A</span>
       </div>
-      <p class="example-text">A letra <strong>A</strong> não está no nome.</p>
-      <p class="instructions-note"><strong>Atenção:</strong> no jogo, apenas nomes masculinos são aceitos!</p>
+      <p class="example-text" id="ex3-text">A letra <strong>A</strong> não está no nome.</p>
+      <p class="instructions-note" id="instr-note"><strong>Atenção:</strong> no jogo, apenas nomes masculinos são aceitos!</p>
       <button id="start-playing-btn">Começar</button>
     </div>
   </div>
@@ -124,6 +137,7 @@
           <button id="share-copy" class="share-btn">Copiar Resultado</button>
           <button id="share-whatsapp" class="share-btn share-whatsapp">Compartilhar</button>
         </div>
+        <p id="share-hint">Apenas o tempo e as cores são compartilhados. Os nomes não aparecem!</p>
       </div>
     </div>
   </div>

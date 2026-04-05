@@ -2,14 +2,7 @@
 // Qual é Meu Nome? — UI Rendering
 // =============================================================
 
-const WIN_MESSAGES = [
-  "Gênio!",
-  "Magnífico!",
-  "Impressionante!",
-  "Esplêndido!",
-  "Ótimo!",
-  "Ufa!",
-];
+// WIN_MESSAGES now comes from T[lang].winMessages in main.js
 
 let messageTimeout = null;
 
@@ -141,20 +134,21 @@ function showGameOver(status, guessCount, correctWord, stats, timeStr) {
   var title = document.getElementById("modal-title");
   var message = document.getElementById("modal-message");
   var modalImg = document.getElementById("modal-baby-image");
+  var winMessages = t("winMessages");
 
   if (status === "won") {
     modalImg.src = "img/baby-right.jpg";
-    title.textContent = WIN_MESSAGES[guessCount - 1] || "Parabéns!";
-    message.innerHTML = "Você acertou em " + guessCount + " tentativa" + (guessCount > 1 ? "s" : "") + "!";
+    title.textContent = winMessages[guessCount - 1] || winMessages[0];
+    message.innerHTML = t("youGuessed")(guessCount);
   } else {
     modalImg.src = "img/baby-wrong.jpg";
-    title.textContent = "Que pena!";
-    message.innerHTML = "O nome será: <strong>" + correctWord + "</strong>";
+    title.textContent = t("tooSad");
+    message.innerHTML = t("loseMessage") + "<strong>" + correctWord + "</strong>";
   }
   modalImg.classList.remove("hidden");
 
   if (timeStr) {
-    message.innerHTML += "<br>Tempo: " + timeStr;
+    message.innerHTML += "<br>" + (lang === "pt" ? "Tempo: " : "Time: ") + timeStr;
   }
 
   overlay.classList.remove("hidden");

@@ -1,5 +1,5 @@
 // =============================================================
-// Qual é Meu Nome? — Main Entry Point
+// Qual vai ser o nome do bebê? — Main Entry Point
 // =============================================================
 // Depends on: words.js, game.js, ui.js, storage.js (loaded first)
 
@@ -13,12 +13,124 @@ let playerName = "";
 let timerStart = null;
 let timerInterval = null;
 let elapsedSeconds = 0;
+let lang = "pt";
+
+// ---- Translations ----
+
+var T = {
+  pt: {
+    gameTitle: "Qual vai ser o nome do bebê?",
+    namePrompt: 'Antes de começar, precisamos saber: qual é o <strong>seu</strong> nome?',
+    nameHint: "Este é o seu nome, não o palpite!",
+    namePlaceholder: "Seu nome",
+    nameContinue: "Continuar",
+    instrTitle: "Como jogar",
+    instrDesc: "Descubra o nome do bebê em 6 tentativas. O nome tem 5 letras.",
+    instrRule1: "Cada palpite deve ser um nome de 5 letras.",
+    instrRule2: "Após cada palpite, as cores das letras mudam para mostrar o quão perto você está.",
+    instrExamplesTitle: "Exemplos",
+    ex1: 'A letra <strong>C</strong> está no nome e na posição correta.',
+    ex2: 'A letra <strong>U</strong> está no nome, mas em outra posição.',
+    ex3: 'A letra <strong>A</strong> não está no nome.',
+    instrNote: '<strong>Atenção:</strong> no jogo, apenas nomes masculinos são aceitos!',
+    startPlaying: "Começar",
+    missingLetters: "Faltam letras",
+    notInList: "Nome não encontrado",
+    alreadyGuessed: "Nome já utilizado",
+    loseMessage: "O nome será: ",
+    youGuessed: function (n) { return "Você acertou em " + n + " tentativa" + (n > 1 ? "s" : "") + "!"; },
+    tooSad: "Que pena!",
+    shareText: "Qual vai ser o nome do bebê? ",
+    shareCopy: "Copiar Resultado",
+    shareWhatsapp: "Compartilhar",
+    shareHint: "Apenas o tempo e as cores são compartilhados. Os nomes não aparecem!",
+    copied: "Copiado!",
+    copyError: "Erro ao copiar",
+    emailSubject: "Qual vai ser o nome do bebê? - Resultado de ",
+    winMessages: ["Gênio!", "Magnífico!", "Impressionante!", "Esplêndido!", "Ótimo!", "Ufa!"],
+  },
+  en: {
+    gameTitle: "What will be the baby's name?",
+    namePrompt: 'Before we start, we need to know: what is <strong>your</strong> name?',
+    nameHint: "This is your name, not your guess!",
+    namePlaceholder: "Your name",
+    nameContinue: "Continue",
+    instrTitle: "How to play",
+    instrDesc: "Guess the baby's name in 6 tries. The name has 5 letters.",
+    instrRule1: "Each guess must be a 5-letter name.",
+    instrRule2: "After each guess, the tile colors change to show how close you are.",
+    instrExamplesTitle: "Examples",
+    ex1: 'The letter <strong>C</strong> is in the name and in the correct position.',
+    ex2: 'The letter <strong>U</strong> is in the name but in a different position.',
+    ex3: 'The letter <strong>A</strong> is not in the name.',
+    instrNote: '<strong>Note:</strong> only male names are accepted!',
+    startPlaying: "Start",
+    missingLetters: "Not enough letters",
+    notInList: "Name not found",
+    alreadyGuessed: "Already guessed",
+    loseMessage: "The name will be: ",
+    youGuessed: function (n) { return "You got it in " + n + " tr" + (n > 1 ? "ies" : "y") + "!"; },
+    tooSad: "Too bad!",
+    shareText: "What will be the baby's name? ",
+    shareCopy: "Copy Result",
+    shareWhatsapp: "Share",
+    shareHint: "Only time and colors are shared. The names won't appear!",
+    copied: "Copied!",
+    copyError: "Copy failed",
+    emailSubject: "What will be the baby's name? - Result from ",
+    winMessages: ["Genius!", "Magnificent!", "Impressive!", "Splendid!", "Great!", "Phew!"],
+  },
+};
+
+function t(key) {
+  return T[lang][key];
+}
+
+// ---- Language screen ----
+
+function setupLangScreen() {
+  var buttons = document.querySelectorAll("#lang-screen .lang-btn");
+  buttons.forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      lang = btn.dataset.lang;
+      document.getElementById("lang-screen").classList.add("hidden");
+      applyTranslations();
+      document.getElementById("name-screen").classList.remove("hidden");
+      document.getElementById("player-name-input").focus();
+    });
+  });
+}
+
+function applyTranslations() {
+  // Name screen
+  document.getElementById("name-prompt").innerHTML = t("namePrompt");
+  document.getElementById("name-hint").textContent = t("nameHint");
+  document.getElementById("player-name-input").placeholder = t("namePlaceholder");
+  document.getElementById("start-game-btn").textContent = t("nameContinue");
+
+  // Instructions screen
+  document.getElementById("instr-title").textContent = t("instrTitle");
+  document.getElementById("instr-desc").textContent = t("instrDesc");
+  var rules = document.getElementById("instr-rules");
+  rules.innerHTML = "<li>" + t("instrRule1") + "</li><li>" + t("instrRule2") + "</li>";
+  document.getElementById("instr-examples-title").textContent = t("instrExamplesTitle");
+  document.getElementById("ex1-text").innerHTML = t("ex1");
+  document.getElementById("ex2-text").innerHTML = t("ex2");
+  document.getElementById("ex3-text").innerHTML = t("ex3");
+  document.getElementById("instr-note").innerHTML = t("instrNote");
+  document.getElementById("start-playing-btn").textContent = t("startPlaying");
+
+  // Share buttons
+  document.getElementById("share-copy").textContent = t("shareCopy");
+  document.getElementById("share-whatsapp").textContent = t("shareWhatsapp");
+  document.getElementById("share-hint").textContent = t("shareHint");
+}
 
 // ---- Name screen ----
 
 function setupNameScreen() {
-  const nameInput = document.getElementById("player-name-input");
-  const startBtn = document.getElementById("start-game-btn");
+  var nameInput = document.getElementById("player-name-input");
+  var startBtn = document.getElementById("start-game-btn");
 
   function startWithName() {
     var name = nameInput.value.trim();
@@ -38,8 +150,6 @@ function setupNameScreen() {
       startWithName();
     }
   });
-
-  nameInput.focus();
 }
 
 // ---- Instructions screen ----
@@ -112,7 +222,7 @@ function sendResultEmail(status, guessCount) {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-      _subject: "Qual vai ser o nome do bebê? - Resultado de " + playerName,
+      _subject: t("emailSubject") + playerName,
       message: message,
     }),
   }).catch(function () {
@@ -132,24 +242,20 @@ function buildShareText(status, guessCount, evaluations, timeStr) {
     }).join("");
   }).join("\n");
 
-  return "Qual vai ser o nome do bebê? " + result + "\n"
-    + "Tempo: " + timeStr + "\n\n"
+  return t("shareText") + result + "\n"
+    + (lang === "pt" ? "Tempo: " : "Time: ") + timeStr + "\n\n"
     + lines;
 }
 
 function copyToClipboard(text) {
-  // iOS Safari: use navigator.share if available (most reliable)
   if (navigator.share) {
-    navigator.share({ text: text }).catch(function () {
-      // User cancelled share — that's OK
-    });
+    navigator.share({ text: text }).catch(function () {});
     return;
   }
 
-  // Try modern clipboard API
   if (navigator.clipboard && window.isSecureContext) {
     navigator.clipboard.writeText(text).then(function () {
-      showMessage("Copiado!");
+      showMessage(t("copied"));
     }).catch(function () {
       fallbackCopy(text);
     });
@@ -170,7 +276,6 @@ function fallbackCopy(text) {
   ta.style.opacity = "0";
   document.body.appendChild(ta);
 
-  // iOS requires contentEditable + setSelectionRange
   ta.contentEditable = true;
   ta.readOnly = false;
   var range = document.createRange();
@@ -182,9 +287,9 @@ function fallbackCopy(text) {
 
   try {
     document.execCommand("copy");
-    showMessage("Copiado!");
+    showMessage(t("copied"));
   } catch (_) {
-    showMessage("Erro ao copiar");
+    showMessage(t("copyError"));
   }
   document.body.removeChild(ta);
 }
@@ -278,7 +383,6 @@ function addLetter(letter) {
   if (game.status !== "playing" || isRevealing) return;
   if (currentInput.length >= WORD_LENGTH) return;
 
-  // Start timer on first letter of the entire game
   if (!timerStart) {
     startTimer();
   }
@@ -302,11 +406,11 @@ function submitGuess() {
 
   if (guess.length < WORD_LENGTH) {
     shakeRow(currentRow);
-    showMessage("Faltam letras");
+    showMessage(t("missingLetters"));
     return;
   }
 
-  // Easter eggs — check before submitting to game engine
+  // Easter eggs
   if (guess === "CARLO" || guess === "ROCHA") {
     handleEasterEgg(guess);
     return;
@@ -316,13 +420,13 @@ function submitGuess() {
 
   if (result.error === "not_in_list") {
     shakeRow(currentRow);
-    showMessage("Nome não encontrado");
+    showMessage(t("notInList"));
     return;
   }
 
   if (result.error === "already_guessed") {
     shakeRow(currentRow);
-    showMessage("Nome já utilizado");
+    showMessage(t("alreadyGuessed"));
     return;
   }
 
@@ -371,9 +475,8 @@ function showEasterEggEmoji(emoji) {
   var el = document.getElementById("emoji-overlay");
   el.textContent = emoji;
   el.classList.remove("hidden");
-  // Remove and re-add to retrigger animation
   el.style.animation = "none";
-  el.offsetHeight; // force reflow
+  el.offsetHeight;
   el.style.animation = "";
   setTimeout(function () {
     el.classList.add("hidden");
@@ -385,13 +488,10 @@ function handleEasterEgg(guess) {
   var row = currentRow;
   var allCorrect = ["correct", "correct", "correct", "correct", "correct"];
 
-  // Phase 1: reveal all tiles as green (correct)
   revealRow(row, allCorrect, function () {
-    // Phase 2: show large emoji on top of tiles
     showEasterEggEmoji("😜");
 
     if (guess === "CARLO") {
-      // Phase 3a: revert colors right-to-left to the real evaluation
       var realEval = Game.evaluateGuess(guess, CORRECT_WORD);
       var delay = 800;
       for (var i = WORD_LENGTH - 1; i >= 0; i--) {
@@ -413,10 +513,8 @@ function handleEasterEgg(guess) {
         })(i, realEval[i]);
       }
 
-      // After all tiles revert, submit the guess for real
       setTimeout(function () {
         var result = game.submitGuess(guess);
-        // Update keyboard with real evaluation
         var priority = { correct: 3, present: 2, absent: 1 };
         for (var c = 0; c < WORD_LENGTH; c++) {
           var letter = guess[c];
@@ -443,7 +541,6 @@ function handleEasterEgg(guess) {
       currentRow++;
 
     } else if (guess === "ROCHA") {
-      // Phase 3b: erase tiles right-to-left, then show message
       var delay = 800;
       for (var i = WORD_LENGTH - 1; i >= 0; i--) {
         (function (col) {
@@ -464,8 +561,7 @@ function handleEasterEgg(guess) {
       }
 
       setTimeout(function () {
-        showMessage("Nome não encontrado", 2500);
-        // Reset input — row stays the same (guess not counted)
+        showMessage(t("notInList"), 2500);
         currentInput = [];
         isRevealing = false;
       }, delay + 200);
@@ -473,5 +569,8 @@ function handleEasterEgg(guess) {
   });
 }
 
-// Start with name screen
-document.addEventListener("DOMContentLoaded", setupNameScreen);
+// Start
+document.addEventListener("DOMContentLoaded", function () {
+  setupLangScreen();
+  setupNameScreen();
+});
