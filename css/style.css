@@ -552,6 +552,11 @@ header h1 {
   font-size: 0.65rem;
 }
 
+#keyboard button[data-key="ENTER"] {
+  background: var(--color-correct);
+  color: #fff;
+}
+
 #keyboard button.correct {
   background: var(--color-correct);
   color: #fff;
