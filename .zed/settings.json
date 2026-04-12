@@ -1,0 +1,10 @@
+{
+  "context_servers": {
+    "getdex": {
+      "source": "custom",
+      "type": "http",
+      "url": "https://mcp.getdex.com/mcp",
+      "headers": {}
+    }
+  }
+}

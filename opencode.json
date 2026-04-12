@@ -1,0 +1,9 @@
+{
+  "mcp": {
+    "getdex": {
+      "type": "remote",
+      "url": "https://mcp.getdex.com/mcp",
+      "enabled": true
+    }
+  }
+}

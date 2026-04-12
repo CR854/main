@@ -1,0 +1,7 @@
+{
+  "mcpServers": {
+    "getdex": {
+      "url": "https://mcp.getdex.com/mcp"
+    }
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "servers": {
+    "getdex": {
+      "type": "http",
+      "url": "https://mcp.getdex.com/mcp"
+    }
+  }
+}
